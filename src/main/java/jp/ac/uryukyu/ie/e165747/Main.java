@@ -6,8 +6,10 @@ package jp.ac.uryukyu.ie.e165747;
 
 public class Main {
     public static void main(String args[]){
-        TIME TIME = new TIME();
-        Thread TH = new Thread(TIME);
+        TIMER TIMER = new TIMER();
+        Thread TH = new Thread(TIMER);
+
+        TIMER.NowTime();
         TH.start();
     }
 }

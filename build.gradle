@@ -15,7 +15,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes  "Main-Class": "jp.ac.uryukyu.ie.e165747.Main"
+        attributes  "Main-Class": "jp.ac.uryukyu.ie.e165747.WINDOWTIMER"
         attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
     }
 }
