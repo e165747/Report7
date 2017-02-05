@@ -24,9 +24,9 @@ public class WINDOWTIMER extends JFrame implements ActionListener,Runnable {
     private JTextField wakeupminite = new JTextField();
     private JLabel settimeprint = new JLabel(); //タイマー関係のメッセージを表示させるラベルを作成
     private JLabel colon = new JLabel();
-    private static int TimerO_clock;    //セットした時間を保存する変数
-    private static int TimerMinute;
-    boolean setTIMER;   //タイマーがセットされているかどうかを判定する
+    static int TimerO_clock;    //セットした時間を保存する変数
+    static int TimerMinute;
+    static boolean setTIMER;   //タイマーがセットされているかどうかを判定する
 
 
 
@@ -132,18 +132,18 @@ public class WINDOWTIMER extends JFrame implements ActionListener,Runnable {
             try {
                 TimerO_clock = Integer.parseInt(wakeuphour.getText());
                 TimerMinute = Integer.parseInt(wakeupminite.getText());
-            } catch(NumberFormatException e2){
+            } catch (NumberFormatException e2) {
                 settimeprint.setText("もう一度入力してください");
             }
 
-            if(TimerO_clock >=24 || TimerO_clock <0 || TimerMinute >=60 || TimerMinute <0){
+            if (TimerO_clock >= 24 || TimerO_clock < 0 || TimerMinute >= 60 || TimerMinute < 0) {
                 settimeprint.setText("もう一度入力してください");
             }
 
             setTIMER = true;
 
-        //stopがクリックされた場合はセットした時間をリセットする
-        }else if("stop".equals(btName)) {
+            //stopがクリックされた場合はセットした時間をリセットする
+        } else if ("stop".equals(btName)) {
             wakeuphour.setText("");
             wakeupminite.setText("");
             settimeprint.setText("タイマーをセットしてください");
@@ -151,6 +151,5 @@ public class WINDOWTIMER extends JFrame implements ActionListener,Runnable {
         }
     }
 }
-
 
 
