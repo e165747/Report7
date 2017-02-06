@@ -13,12 +13,17 @@ import java.util.Calendar;
  **/
 
 //WINDOWTIMERクラスはTIMERクラスをウィンドウ上で実行できるように改良したもの
+
+/*JFrameクラスを継承することによってウィンドウを作成できるようにし，
+ActionListenerインターフェースを用いてボタンをプログラムに組み込めるようにした。また，
+Runnableインターフェースを使用することで，Threadを用いて（擬似的に）様々な動作を同時に行えるようにした。
+*/
 public class WINDOWTIMER extends JFrame implements ActionListener,Runnable {
 
     static WINDOWTIMER frame = new WINDOWTIMER("Watch");    //画面上に表示するウィンドウ(の骨組み)を作成
     static Thread TH2 = new Thread(frame);
 
-    private JPanel  p = new JPanel();   //いろいろな文字を表示させるのに必要なパネルを作成
+    private JPanel p = new JPanel();   //いろいろな文字を表示させるのに必要なパネルを作成
     private JLabel nowTime = new JLabel();  //現在時刻を表示させるラベルを作成
     private JTextField wakeuphour = new JTextField();  //セットする時間を入力するテキストフィールドを作成
     private JTextField wakeupminite = new JTextField();
@@ -26,7 +31,7 @@ public class WINDOWTIMER extends JFrame implements ActionListener,Runnable {
     private JLabel colon = new JLabel();
     static int TimerO_clock;    //セットした時間を保存する変数
     static int TimerMinute;
-    static boolean setTIMER;   //タイマーがセットされているかどうかを判定する
+    static boolean setTIMER = false;   //タイマーがセットされているかどうかを判定する
 
 
 
@@ -74,9 +79,8 @@ public class WINDOWTIMER extends JFrame implements ActionListener,Runnable {
         Container contentPane = getContentPane();
         getContentPane().add(p);
         contentPane.add(p, BorderLayout.CENTER);
-
-
     }
+
 
     public void run() {
         //基本的にずっと動き続ける
