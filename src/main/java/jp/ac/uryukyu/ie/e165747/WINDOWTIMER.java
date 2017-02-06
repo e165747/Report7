@@ -39,13 +39,12 @@ public class WINDOWTIMER extends JFrame implements ActionListener,Runnable {
 
         //ボタンなどを自由に設置するためにレイアウトの初期設定をなしにする
         p.setLayout(null);
-
         //ボタン1(set),ボタン2(stop)を作成し，サイズと位置を設定
         JButton button1 = new JButton("set");
         button1.addActionListener(this);
         button1.setBounds(90,290,130,40);
         p.add(button1);
-        JButton button2 = new JButton("stop");
+        JButton button2 = new JButton("stop/reset");
         button2.addActionListener(this);
         button2.setBounds(290,290,130,40);
         p.add(button2);
@@ -60,7 +59,7 @@ public class WINDOWTIMER extends JFrame implements ActionListener,Runnable {
         p.add(wakeupminite);
         p.add(nowTime);
 
-        settimeprint.setText("タイマーを設定してください");
+        setmessageTxt(settimeprint,"タイマーを設定してください");
 
         //現在時刻表示の文字サイズ，フォントを設定
         Font font1 = new Font("MS 明朝", Font.BOLD, 40);
@@ -88,10 +87,6 @@ public class WINDOWTIMER extends JFrame implements ActionListener,Runnable {
             int NowMinute = calendar.get(Calendar.MINUTE);
             int NowSecond = calendar.get(Calendar.SECOND);
 
-            //タイマーがセットされていない場合TimerMinuteを現在時刻+1分に設定してずっと動き続けるようにする
-            if (!setTIMER) {
-                TimerO_clock = NowO_clock + 1;
-            }
 
             //現在時刻を表示する
             String NOW[] = new String[3];
@@ -99,19 +94,18 @@ public class WINDOWTIMER extends JFrame implements ActionListener,Runnable {
             NOW[1] = String.valueOf(NowMinute);
             NOW[2] = String.valueOf(NowSecond);
             String printNOWTIME = NOW[0] + ":" + NOW[1] + " " + NOW[2];
-            nowTime.setText(printNOWTIME);
+            setmessageTxt(nowTime,printNOWTIME);
 
-            //セットした時間になった場合，ビープ音を鳴らしてメッセージを表示する
+            //タイマーがセットされ，セットした時間になった場合，ビープ音(擬似アラーム)を鳴らしてメッセージを表示する
             if(NowO_clock == TimerO_clock&& NowMinute == TimerMinute &&setTIMER){
                 Toolkit.getDefaultToolkit().beep();
-                settimeprint.setText("時間です！おはようございます！");
+                setmessageTxt(settimeprint,"時間です！おはようございます！");
             }
 
             //スレッドが1秒間に一回動作するようにす設定し，エラーが出たらシステムを終了する
             try {
                 TH2.sleep(1000);
             } catch (InterruptedException e) {
-                System.out.println("エラーが発生しました。\n");
                 System.exit(1);
             }
         }
@@ -126,29 +120,34 @@ public class WINDOWTIMER extends JFrame implements ActionListener,Runnable {
         if ("set".equals(btName)) {
 
             String TIMERmessage = "タイマーを" + wakeuphour.getText() + "時" + wakeupminite.getText() + "分にセットしました";
-            settimeprint.setText(TIMERmessage);
+            setmessageTxt(settimeprint,TIMERmessage);
 
             //セットしようとした時間がint型ではない，もしくは24時間60分の範囲外の場合もう一度入力させる
             try {
                 TimerO_clock = Integer.parseInt(wakeuphour.getText());
                 TimerMinute = Integer.parseInt(wakeupminite.getText());
             } catch (NumberFormatException e2) {
-                settimeprint.setText("もう一度入力してください");
+                setmessageTxt(settimeprint,"もう一度入力してください");
             }
 
             if (TimerO_clock >= 24 || TimerO_clock < 0 || TimerMinute >= 60 || TimerMinute < 0) {
-                settimeprint.setText("もう一度入力してください");
+                setmessageTxt(settimeprint,"もう一度入力してください");
             }
 
             setTIMER = true;
 
-            //stopがクリックされた場合はセットした時間をリセットする
-        } else if ("stop".equals(btName)) {
+            //stop/resetがクリックされた場合は擬似アラームを止め,セットした時間をリセットする
+        } else if ("stop/reset".equals(btName)) {
             wakeuphour.setText("");
             wakeupminite.setText("");
-            settimeprint.setText("タイマーをセットしてください");
+            setmessageTxt(settimeprint,"タイマーをセットしてください");
             setTIMER = false;
         }
+    }
+
+
+    public void setmessageTxt(JLabel label,String str){
+        label.setText(str);
     }
 }
 
